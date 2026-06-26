@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAGGLER</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #eee
+        }
+
+        #app {
+            width: 100%;
+            max-width: 420px;
+            padding: 1rem
+        }
+
+        #machine {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5)
+        }
+
+        #title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #e2b96f;
+            margin-bottom: 1rem
+        }
+
+        #dodo-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem
+        }
+
+        #dodo {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            border: 3px solid #333;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #555;
+            letter-spacing: 1px;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+            user-select: none
+        }
+
+        #dodo.lit {
+            background: #f5c842;
+            border-color: #d4a017;
+            color: #3a2800
+        }
+
+        @keyframes chika {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.1
+            }
+        }
+
+        #dodo.chika {
+            animation: chika 0.15s linear infinite
+        }
+
+        @keyframes rainbow {
+            0% {
+                background: #f5c842;
+                border-color: #d4a017
+            }
+
+            16% {
+                background: #f87171;
+                border-color: #dc2626
+            }
+
+            33% {
+                background: #fb923c;
+                border-color: #ea580c
+            }
+
+            50% {
+                background: #4ade80;
+                border-color: #16a34a
+            }
+
+            66% {
+                background: #60a5fa;
+                border-color: #2563eb
+            }
+
+            83% {
+                background: #c084fc;
+                border-color: #9333ea
+            }
+
+            100% {
+                background: #f5c842;
+                border-color: #d4a017
+            }
+        }
+
+        #dodo.rainbow {
+            animation: rainbow 0.5s linear infinite;
+            color: #1a1a2e
+        }
+
+        #reels {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.25rem
+        }
+
+        .reel-wrap {
+            flex: 1;
+            background: #0d0d1a;
+            border: 1px solid #0f3460;
+            border-radius: 10px;
+            height: 110px;
+            overflow: hidden;
+            position: relative;
+            transition: background 0.1s
+        }
+
+        .reel-wrap.dark {
+            background: #000
+        }
+
+        .reel-inner {
+            position: absolute;
+            width: 100%
+        }
+
+        .reel-inner.spinning {
+            animation: rspin 0.1s linear infinite
+        }
+
+        .reel-inner.rev {
+            animation: rspin-rev 0.1s linear infinite
+        }
+
+        @keyframes rspin {
+            from {
+                transform: translateY(0)
+            }
+
+            to {
+                transform: translateY(-110px)
+            }
+        }
+
+        @keyframes rspin-rev {
+            from {
+                transform: translateY(-110px)
+            }
+
+            to {
+                transform: translateY(0)
+            }
+        }
+
+        .reel-cell {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px
+        }
+
+        .win-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(229, 180, 80, 0.35);
+            transform: translateY(-50%);
+            pointer-events: none
+        }
+
+        #info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 1rem
+        }
+
+        .stat {
+            background: #0d0d1a;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #667;
+            margin-bottom: 2px;
+            letter-spacing: 1px
+        }
+
+        .stat-val {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e2b96f
+        }
+
+        #msg {
+            text-align: center;
+            font-size: 14px;
+            color: #667;
+            height: 22px;
+            margin-bottom: 0.75rem;
+            transition: color 0.2s
+        }
+
+        #msg.win {
+            color: #e2b96f;
+            font-weight: 600
+        }
+
+        #msg.bonus {
+            color: #60a5fa;
+            font-weight: 700
+        }
+
+        #msg.premium {
+            color: #c084fc;
+            font-weight: 700
+        }
+
+        .sel-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem
+        }
+
+        .sel-row label {
+            font-size: 12px;
+            color: #889;
+            white-space: nowrap;
+            min-width: 40px
+        }
+
+        select {
+            flex: 1;
+            background: #0d0d1a;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            color: #eee;
+            padding: 7px 10px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer
+        }
+
+        select:focus {
+            border-color: #e2b96f
+        }
+
+        .btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.25rem
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #0f3460;
+            background: #0d0d1a;
+            color: #eee;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            letter-spacing: 1px
+        }
+
+        .btn:hover {
+            background: #0f3460;
+            border-color: #e2b96f
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed
+        }
+
+        .btn-spin {
+            border-color: #e2b96f;
+            color: #e2b96f
+        }
+
+        .btn-spin:hover {
+            background: #e2b96f22
+        }
+
+        #pay-table {
+            border-top: 1px solid #0f3460;
+            padding-top: 1rem
+        }
+
+        #pay-table h3 {
+            font-size: 11px;
+            font-weight: 600;
+            color: #556;
+            letter-spacing: 2px;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase
+        }
+
+        .pay-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #778;
+            padding: 3px 0;
+            border-bottom: 1px solid #0d0d1a
+        }
+
+        .pay-row:last-child {
+            border-bottom: none
+        }
+
+        .pay-sym {
+            font-size: 14px
+        }
+
+        .pay-val {
+            color: #e2b96f;
+            font-weight: 600
+        }
+
+        #premium-log {
+            margin-top: 0.75rem;
+            min-height: 20px;
+            font-size: 11px;
+            color: #556;
+            text-align: center;
+            letter-spacing: 1px
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="machine">
+            <p id="title">SHAGGLER</p>
+            <div id="dodo-wrap">
+                <div id="dodo">DODO</div>
+            </div>
+            <div id="reels">
+                <div class="reel-wrap" id="rw0">
+                    <div class="reel-inner" id="r0"></div>
+                    <div class="win-line"></div>
+                </div>
+                <div class="reel-wrap" id="rw1">
+                    <div class="reel-inner" id="r1"></div>
+                    <div class="win-line"></div>
+                </div>
+                <div class="reel-wrap" id="rw2">
+                    <div class="reel-inner" id="r2"></div>
+                    <div class="win-line"></div>
+                </div>
+            </div>
+            <div id="info">
+                <div class="stat">
+                    <div class="stat-label">COIN</div>
+                    <div class="stat-val" id="coins">50</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">BIG</div>
+                    <div class="stat-val" id="big-count">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">REG</div>
+                    <div class="stat-val" id="reg-count">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">GAME</div>
+                    <div class="stat-val" id="games">0</div>
+                </div>
+            </div>
+            <p id="msg">スピンしてください</p>
+            <div class="sel-row">
+                <label>設定</label>
+                <select id="setting-sel">
+                    <option value="1">設定1</option>
+                    <option value="2">設定2</option>
+                    <option value="3">設定3</option>
+                    <option value="4">設定4</option>
+                    <option value="5">設定5</option>
+                    <option value="6" selected>設定6</option>
+                </select>
+            </div>
+            <div class="sel-row">
+                <label>ベット</label>
+                <select id="bet-sel">
+                    <option value="1">1枚</option>
+                    <option value="2">2枚</option>
+                    <option value="3" selected>3枚</option>
+                </select>
+            </div>
+            <div class="btns">
+                <button class="btn btn-spin" id="spin-btn" onclick="spin()">▶ SPIN</button>
+                <button class="btn" onclick="addCoins()">+50枚</button>
+            </div>
+            <div id="pay-table">
+                <h3>配当表 — 3枚ベット時</h3>
+                <div class="pay-row"><span class="pay-sym">🍒🍒🍒</span><span class="pay-val">15枚</span></div>
+                <div class="pay-row"><span class="pay-sym">🍇🍇🍇</span><span class="pay-val">10枚</span></div>
+                <div class="pay-row"><span class="pay-sym">🔔🔔🔔</span><span class="pay-val">6枚</span></div>
+                <div class="pay-row"><span class="pay-sym">🍒 — —</span><span class="pay-val">4枚（左チェリー）</span></div>
+                <div class="pay-row"><span class="pay-sym">7️⃣7️⃣7️⃣</span><span class="pay-val">BIG BONUS +50枚</span>
+                </div>
+                <div class="pay-row"><span class="pay-sym">⭐⭐⭐</span><span class="pay-val">REG BONUS +30枚</span></div>
+            </div>
+            <div id="premium-log"></div>
+        </div>
+    </div>
+
+    <script>
+        const PROB = {
+            1: { big: 1 / 273.1, reg: 1 / 439.8, grape: 1 / 5.95, cherry: 1 / 32.29 },
+            2: { big: 1 / 269.7, reg: 1 / 399.6, grape: 1 / 5.90, cherry: 1 / 32.29 },
+            3: { big: 1 / 269.7, reg: 1 / 331.0, grape: 1 / 5.85, cherry: 1 / 32.29 },
+            4: { big: 1 / 259.0, reg: 1 / 315.1, grape: 1 / 5.80, cherry: 1 / 32.29 },
+            5: { big: 1 / 259.0, reg: 1 / 255.0, grape: 1 / 5.75, cherry: 1 / 32.29 },
+            6: { big: 1 / 255.0, reg: 1 / 255.0, grape: 1 / 5.95, cherry: 1 / 32.29 }
+        };
+        const SYMS = ['🍒', '🍇', '🔔', '7️⃣', '⭐', '🍋'];
+        const REEL = [0, 0, 1, 2, 5, 0, 1, 2, 5, 3, 0, 1, 2, 4, 0, 1, 2, 5, 0, 1];
+
+        let coins = parseInt(localStorage.getItem('shag_coins') || '50');
+        let bigC = parseInt(localStorage.getItem('shag_big') || '0');
+        let regC = parseInt(localStorage.getItem('shag_reg') || '0');
+        let games = parseInt(localStorage.getItem('shag_games') || '0');
+        let spinning = false;
+        let ac = null;
+
+        function getAC() {
+            if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+            return ac;
+        }
+
+        function playStart() {
+            try {
+                const a = getAC();
+                const o = a.createOscillator(), g = a.createGain();
+                o.connect(g); g.connect(a.destination);
+                o.type = 'sine';
+                o.frequency.setValueAtTime(880, a.currentTime);
+                o.frequency.exponentialRampToValueAtTime(1320, a.currentTime + 0.06);
+                g.gain.setValueAtTime(0.12, a.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.12);
+                o.start(); o.stop(a.currentTime + 0.12);
+            } catch (e) { }
+        }
+
+        function playGako(big) {
+            try {
+                const a = getAC();
+                const sr = a.sampleRate;
+                const dur = big ? 0.35 : 0.22;
+                const buf = a.createBuffer(1, Math.floor(sr * dur), sr);
+                const d = buf.getChannelData(0);
+                const freq = big ? 70 : 110;
+                const decay = big ? 14 : 20;
+                const vol = big ? 1.0 : 0.55;
+                for (let i = 0; i < d.length; i++) {
+                    const t = i / sr;
+                    d[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-t * decay) * vol * (Math.random() * 0.25 + 0.75);
+                }
+                const src = a.createBufferSource(), g = a.createGain();
+                src.buffer = buf; g.gain.value = 1;
+                src.connect(g); g.connect(a.destination);
+                src.start();
+            } catch (e) { }
+        }
+
+        function save() {
+            localStorage.setItem('shag_coins', coins);
+            localStorage.setItem('shag_big', bigC);
+            localStorage.setItem('shag_reg', regC);
+            localStorage.setItem('shag_games', games);
+        }
+
+        function updateUI() {
+            document.getElementById('coins').textContent = coins;
+            document.getElementById('big-count').textContent = bigC;
+            document.getElementById('reg-count').textContent = regC;
+            document.getElementById('games').textContent = games;
+        }
+
+        function buildReel(id) {
+            const el = document.getElementById(id);
+            let h = '';
+            for (let i = 0; i < REEL.length * 2; i++)
+                h += `<div class="reel-cell">${SYMS[REEL[i % REEL.length]]}</div>`;
+            el.innerHTML = h;
+        }
+
+        function showSym(id, si) {
+            const el = document.getElementById(id);
+            el.classList.remove('spinning', 'rev');
+            el.style.animation = 'none';
+            el.innerHTML = `<div class="reel-cell">${SYMS[si]}</div>`;
+        }
+
+        function startSpin(id, rev) {
+            const el = document.getElementById(id);
+            buildReel(id);
+            el.classList.remove('spinning', 'rev');
+            void el.offsetWidth;
+            el.classList.add(rev ? 'rev' : 'spinning');
+        }
+
+        function lightDodo(type) {
+            const d = document.getElementById('dodo');
+            d.classList.remove('lit', 'chika', 'rainbow');
+            void d.offsetWidth;
+            if (type === 'rainbow') d.classList.add('rainbow');
+            else if (type === 'chika') d.classList.add('lit', 'chika');
+            else d.classList.add('lit');
+        }
+
+        function darkReels(on) {
+            ['rw0', 'rw1', 'rw2'].forEach(id => {
+                document.getElementById(id).classList.toggle('dark', on);
+            });
+        }
+
+        function pickPremium() {
+            const r = Math.random();
+            if (r < 0.01) return 'bazuka';
+            if (r < 0.03) return 'rainbow';
+            if (r < 0.05) return 'blackout';
+            if (r < 0.08) return 'chika';
+            if (r < 0.11) return 'reverse';
+            if (r < 0.12) return 'silent';
+            return null;
+        }
+
+        function internal(setting) {
+            const p = PROB[setting], r = Math.random();
+            if (r < p.big) return 'big';
+            if (r < p.big + p.reg) return 'reg';
+            if (r < p.big + p.reg + p.cherry) {
+                if (Math.random() < 1 / 1111) return 'big_cherry';
+                if (Math.random() < 1 / 1111) return 'reg_cherry';
+                return 'cherry_single';
+            }
+            if (r < p.big + p.reg + p.cherry + p.grape) return 'grape';
+            if (Math.random() < 0.04) return 'bell';
+            return 'miss';
+        }
+
+        function getSyms(result) {
+            const rand = () => REEL[Math.floor(Math.random() * REEL.length)];
+            let s = [rand(), rand(), rand()];
+            if (result === 'big' || result === 'big_cherry') return [3, 3, 3];
+            if (result === 'reg' || result === 'reg_cherry') return [4, 4, 4];
+            if (result === 'cherry_single' || result === 'big_cherry' || result === 'reg_cherry') {
+                s[0] = 0; if (s[1] === 0) s[1] = 1; if (s[2] === 0) s[2] = 1; return s;
+            }
+            if (result === 'grape') return [1, 1, 1];
+            if (result === 'bell') return [2, 2, 2];
+            return s;
+        }
+
+        function setMsg(t, cls) {
+            const el = document.getElementById('msg');
+            el.textContent = t; el.className = cls || '';
+        }
+
+        function setPremiumLog(t) {
+            document.getElementById('premium-log').textContent = t;
+        }
+
+        function spin() {
+            if (spinning) return;
+            const bet = parseInt(document.getElementById('bet-sel').value);
+            const setting = parseInt(document.getElementById('setting-sel').value);
+            if (coins < bet) { setMsg('コインが足りません', ''); return; }
+
+            coins -= bet; games++; spinning = true;
+            document.getElementById('spin-btn').disabled = true;
+            setMsg('', ''); setPremiumLog('');
+            updateUI();
+
+            const result = internal(setting);
+            const syms = getSyms(result);
+            const isBig = result === 'big' || result === 'big_cherry';
+            const isBonus = isBig || result === 'reg' || result === 'reg_cherry';
+            const premium = isBonus && isBig ? pickPremium() : null;
+            const isSilent = premium === 'silent';
+            const isReverse = premium === 'reverse';
+            const isBazuka = premium === 'bazuka';
+            const isBlackout = premium === 'blackout';
+            const isChika = premium === 'chika';
+            const isRainbow = premium === 'rainbow';
+            const isSaki = isBonus && Math.random() < 0.25;
+
+            if (!isSilent) playStart();
+            else setPremiumLog('🔇 無音プレミアム発生');
+
+            if (isReverse) {
+                startSpin('r0', true); startSpin('r1', true); startSpin('r2', true);
+                setPremiumLog('🎰 リール逆回転プレミアム');
+            } else {
+                startSpin('r0', false); startSpin('r1', false); startSpin('r2', false);
+            }
+
+            if (isBlackout) {
+                setTimeout(() => { darkReels(true); setPremiumLog('🌑 全消灯プレミアム'); }, 80);
+            }
+
+            const lType = isRainbow ? 'rainbow' : isChika ? 'chika' : 'lit';
+
+            if (isSaki && isBonus) {
+                const sTime = isReverse ? 60 : Math.random() < 0.5 ? 60 : 350;
+                setTimeout(() => {
+                    lightDodo(lType);
+                    if (isRainbow) setPremiumLog('🌈 レインボー点灯！');
+                    else if (isChika) setPremiumLog('✨ チカチカ点滅！');
+                }, sTime);
+            }
+
+            const t1 = 600 + Math.random() * 150;
+            const t2 = 900 + Math.random() * 150;
+            const t3 = 1200 + Math.random() * 150;
+
+            setTimeout(() => showSym('r0', syms[0]), t1);
+            setTimeout(() => showSym('r1', syms[1]), t2);
+            setTimeout(() => {
+                showSym('r2', syms[2]);
+                if (isBlackout) setTimeout(() => darkReels(false), 350);
+                if (!isSaki && isBonus) {
+                    lightDodo(lType);
+                    if (isBazuka) { playGako(true); setPremiumLog('💥 ガコバズーカ！！'); }
+                    else if (isRainbow) setPremiumLog('🌈 レインボー点灯！');
+                    else if (isChika) setPremiumLog('✨ チカチカ点滅！');
+                    else playGako(false);
+                }
+                spinning = false;
+                document.getElementById('spin-btn').disabled = false;
+                resolve(result, bet, premium);
+            }, t3);
+        }
+
+        function resolve(result, bet, premium) {
+            const ratio = bet / 3;
+            let win = 0;
+            if (result === 'big' || result === 'big_cherry') {
+                win = Math.round(50 * ratio); bigC++;
+                if (!premium) setMsg('🎰 BIG BONUS！', 'bonus');
+                else setMsg('🎰 BIG BONUS！', 'bonus');
+            } else if (result === 'reg' || result === 'reg_cherry') {
+                win = Math.round(30 * ratio); regC++;
+                setMsg('⭐ REG BONUS！', 'bonus');
+            } else if (result === 'cherry_single') {
+                win = Math.round(4 * ratio); setMsg('🍒 左チェリー！', 'win');
+            } else if (result === 'grape') {
+                win = Math.round(10 * ratio); setMsg('🍇🍇🍇 ぶどう！', 'win');
+            } else if (result === 'bell') {
+                win = Math.round(6 * ratio); setMsg('🔔🔔🔔 ベル！', 'win');
+            } else {
+                setMsg('ハズレ', '');
+            }
+            if (win > 0) coins += win;
+            updateUI(); save();
+        }
+
+        function addCoins() { coins += 50; updateUI(); save(); }
+        updateUI();
+    </script>
+</body>
+
+</html>
