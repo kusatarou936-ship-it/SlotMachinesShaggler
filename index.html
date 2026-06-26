@@ -9,7 +9,7 @@
         * {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         body {
@@ -19,59 +19,59 @@
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', system-ui, sans-serif;
-            color: #eee
+            color: #eee;
         }
 
         #app {
             width: 100%;
-            max-width: 420px;
-            padding: 1rem
+            max-width: 440px;
+            padding: 1rem;
         }
 
         #machine {
             background: #16213e;
-            border: 1px solid #0f3460;
+            border: 1px solid #2a4080;
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5)
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
 
         #title {
             text-align: center;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             color: #e2b96f;
-            margin-bottom: 1rem
+            margin-bottom: 1rem;
         }
 
         #dodo-wrap {
             display: flex;
             justify-content: center;
-            margin-bottom: 1rem
+            margin-bottom: 1rem;
         }
 
         #dodo {
             width: 68px;
             height: 68px;
             border-radius: 50%;
-            border: 3px solid #333;
+            border: 3px solid #444;
             background: #222;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 11px;
             font-weight: 700;
-            color: #555;
+            color: #666;
             letter-spacing: 1px;
             transition: background 0.2s, border-color 0.2s, color 0.2s;
-            user-select: none
+            user-select: none;
         }
 
         #dodo.lit {
             background: #f5c842;
             border-color: #d4a017;
-            color: #3a2800
+            color: #3a2800;
         }
 
         @keyframes chika {
@@ -82,116 +82,95 @@
             }
 
             50% {
-                opacity: 0.1
+                opacity: 0.05
             }
         }
 
         #dodo.chika {
-            animation: chika 0.15s linear infinite
+            animation: chika 0.15s linear infinite;
         }
 
         @keyframes rainbow {
             0% {
                 background: #f5c842;
-                border-color: #d4a017
+                border-color: #d4a017;
             }
 
             16% {
                 background: #f87171;
-                border-color: #dc2626
+                border-color: #dc2626;
             }
 
             33% {
                 background: #fb923c;
-                border-color: #ea580c
+                border-color: #ea580c;
             }
 
             50% {
                 background: #4ade80;
-                border-color: #16a34a
+                border-color: #16a34a;
             }
 
             66% {
                 background: #60a5fa;
-                border-color: #2563eb
+                border-color: #2563eb;
             }
 
             83% {
                 background: #c084fc;
-                border-color: #9333ea
+                border-color: #9333ea;
             }
 
             100% {
                 background: #f5c842;
-                border-color: #d4a017
+                border-color: #d4a017;
             }
         }
 
         #dodo.rainbow {
             animation: rainbow 0.5s linear infinite;
-            color: #1a1a2e
+            color: #1a1a2e;
         }
 
+        /* ===== REELS ===== */
         #reels {
             display: flex;
+            flex-direction: row;
             gap: 8px;
-            margin-bottom: 1.25rem
+            margin-bottom: 1.25rem;
+            width: 100%;
         }
 
         .reel-wrap {
             flex: 1;
+            min-width: 0;
+            height: 120px;
             background: #0d0d1a;
-            border: 1px solid #0f3460;
+            border: 1px solid #2a4080;
             border-radius: 10px;
-            height: 110px;
             overflow: hidden;
             position: relative;
-            transition: background 0.1s
+            transition: background 0.1s;
         }
 
         .reel-wrap.dark {
-            background: #000
+            background: #000;
         }
 
         .reel-inner {
             position: absolute;
-            width: 100%
-        }
-
-        .reel-inner.spinning {
-            animation: rspin 0.1s linear infinite
-        }
-
-        .reel-inner.rev {
-            animation: rspin-rev 0.1s linear infinite
-        }
-
-        @keyframes rspin {
-            from {
-                transform: translateY(0)
-            }
-
-            to {
-                transform: translateY(-110px)
-            }
-        }
-
-        @keyframes rspin-rev {
-            from {
-                transform: translateY(-110px)
-            }
-
-            to {
-                transform: translateY(0)
-            }
+            top: 0;
+            left: 0;
+            width: 100%;
         }
 
         .reel-cell {
-            height: 110px;
+            height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px
+            font-size: 52px;
+            line-height: 1;
         }
 
         .win-line {
@@ -200,144 +179,151 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: rgba(229, 180, 80, 0.35);
+            background: rgba(229, 180, 80, 0.4);
             transform: translateY(-50%);
-            pointer-events: none
+            pointer-events: none;
+            z-index: 2;
         }
 
+        /* ===== INFO ===== */
         #info {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
-            margin-bottom: 1rem
+            margin-bottom: 1rem;
         }
 
         .stat {
             background: #0d0d1a;
-            border: 1px solid #0f3460;
+            border: 1px solid #2a4080;
             border-radius: 8px;
-            padding: 0.5rem;
-            text-align: center
+            padding: 0.5rem 0.25rem;
+            text-align: center;
         }
 
         .stat-label {
             font-size: 10px;
-            color: #667;
+            color: #778;
             margin-bottom: 2px;
-            letter-spacing: 1px
+            letter-spacing: 1px;
         }
 
         .stat-val {
             font-size: 18px;
             font-weight: 600;
-            color: #e2b96f
+            color: #e2b96f;
         }
 
         #msg {
             text-align: center;
             font-size: 14px;
-            color: #667;
-            height: 22px;
+            color: #778;
+            min-height: 22px;
             margin-bottom: 0.75rem;
-            transition: color 0.2s
         }
 
         #msg.win {
             color: #e2b96f;
-            font-weight: 600
+            font-weight: 600;
         }
 
         #msg.bonus {
             color: #60a5fa;
-            font-weight: 700
+            font-weight: 700;
         }
 
         #msg.premium {
             color: #c084fc;
-            font-weight: 700
+            font-weight: 700;
         }
 
+        /* ===== SELECTS ===== */
         .sel-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 0.5rem
+            margin-bottom: 0.5rem;
         }
 
         .sel-row label {
             font-size: 12px;
-            color: #889;
+            color: #aab;
             white-space: nowrap;
-            min-width: 40px
+            min-width: 38px;
         }
 
         select {
             flex: 1;
             background: #0d0d1a;
-            border: 1px solid #0f3460;
+            border: 1px solid #2a4080;
             border-radius: 8px;
             color: #eee;
-            padding: 7px 10px;
+            padding: 8px 10px;
             font-size: 14px;
             outline: none;
-            cursor: pointer
+            cursor: pointer;
+            appearance: auto;
         }
 
         select:focus {
-            border-color: #e2b96f
+            border-color: #e2b96f;
         }
 
+        /* ===== BUTTONS ===== */
         .btns {
             display: flex;
             gap: 8px;
-            margin-bottom: 1.25rem
+            margin-bottom: 1.25rem;
         }
 
         .btn {
             flex: 1;
-            padding: 0.8rem;
+            padding: 0.85rem;
             border-radius: 10px;
-            border: 1px solid #0f3460;
+            border: 2px solid #2a4080;
             background: #0d0d1a;
-            color: #eee;
+            color: #ccc;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s, border-color 0.15s;
-            letter-spacing: 1px
+            letter-spacing: 1px;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
         }
 
         .btn:hover {
-            background: #0f3460;
-            border-color: #e2b96f
+            background: #1a2a5a;
+            border-color: #e2b96f;
+            color: #fff;
         }
 
         .btn:disabled {
             opacity: 0.35;
-            cursor: not-allowed
+            cursor: not-allowed;
         }
 
         .btn-spin {
             border-color: #e2b96f;
-            color: #e2b96f
+            color: #e2b96f;
+            font-size: 16px;
         }
 
         .btn-spin:hover {
-            background: #e2b96f22
+            background: #e2b96f22;
         }
 
+        /* ===== PAY TABLE ===== */
         #pay-table {
-            border-top: 1px solid #0f3460;
-            padding-top: 1rem
+            border-top: 1px solid #2a4080;
+            padding-top: 1rem;
         }
 
         #pay-table h3 {
             font-size: 11px;
             font-weight: 600;
-            color: #556;
+            color: #778;
             letter-spacing: 2px;
             margin-bottom: 0.6rem;
-            text-transform: uppercase
+            text-transform: uppercase;
         }
 
         .pay-row {
@@ -345,31 +331,27 @@
             justify-content: space-between;
             align-items: center;
             font-size: 13px;
-            color: #778;
-            padding: 3px 0;
-            border-bottom: 1px solid #0d0d1a
+            color: #99a;
+            padding: 4px 0;
+            border-bottom: 1px solid #111;
         }
 
         .pay-row:last-child {
-            border-bottom: none
-        }
-
-        .pay-sym {
-            font-size: 14px
+            border-bottom: none;
         }
 
         .pay-val {
             color: #e2b96f;
-            font-weight: 600
+            font-weight: 600;
         }
 
         #premium-log {
             margin-top: 0.75rem;
-            min-height: 20px;
-            font-size: 11px;
-            color: #556;
+            min-height: 18px;
+            font-size: 12px;
+            color: #778;
             text-align: center;
-            letter-spacing: 1px
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -381,6 +363,7 @@
             <div id="dodo-wrap">
                 <div id="dodo">DODO</div>
             </div>
+
             <div id="reels">
                 <div class="reel-wrap" id="rw0">
                     <div class="reel-inner" id="r0"></div>
@@ -395,6 +378,7 @@
                     <div class="win-line"></div>
                 </div>
             </div>
+
             <div id="info">
                 <div class="stat">
                     <div class="stat-label">COIN</div>
@@ -413,7 +397,9 @@
                     <div class="stat-val" id="games">0</div>
                 </div>
             </div>
+
             <p id="msg">スピンしてください</p>
+
             <div class="sel-row">
                 <label>設定</label>
                 <select id="setting-sel">
@@ -433,25 +419,27 @@
                     <option value="3" selected>3枚</option>
                 </select>
             </div>
+
             <div class="btns">
                 <button class="btn btn-spin" id="spin-btn" onclick="spin()">▶ SPIN</button>
-                <button class="btn" onclick="addCoins()">+50枚</button>
+                <button class="btn" onclick="addCoins()">＋50枚</button>
             </div>
+
             <div id="pay-table">
                 <h3>配当表 — 3枚ベット時</h3>
-                <div class="pay-row"><span class="pay-sym">🍒🍒🍒</span><span class="pay-val">15枚</span></div>
-                <div class="pay-row"><span class="pay-sym">🍇🍇🍇</span><span class="pay-val">10枚</span></div>
-                <div class="pay-row"><span class="pay-sym">🔔🔔🔔</span><span class="pay-val">6枚</span></div>
-                <div class="pay-row"><span class="pay-sym">🍒 — —</span><span class="pay-val">4枚（左チェリー）</span></div>
-                <div class="pay-row"><span class="pay-sym">7️⃣7️⃣7️⃣</span><span class="pay-val">BIG BONUS +50枚</span>
-                </div>
-                <div class="pay-row"><span class="pay-sym">⭐⭐⭐</span><span class="pay-val">REG BONUS +30枚</span></div>
+                <div class="pay-row"><span>🍒🍒🍒</span><span class="pay-val">15枚</span></div>
+                <div class="pay-row"><span>🍇🍇🍇</span><span class="pay-val">10枚</span></div>
+                <div class="pay-row"><span>🔔🔔🔔</span><span class="pay-val">6枚</span></div>
+                <div class="pay-row"><span>🍒 — —</span><span class="pay-val">4枚（左チェリー）</span></div>
+                <div class="pay-row"><span>7️⃣7️⃣7️⃣</span><span class="pay-val">BIG BONUS ＋50枚</span></div>
+                <div class="pay-row"><span>⭐⭐⭐</span><span class="pay-val">REG BONUS ＋30枚</span></div>
             </div>
             <div id="premium-log"></div>
         </div>
     </div>
 
     <script>
+        // ===== 確率テーブル =====
         const PROB = {
             1: { big: 1 / 273.1, reg: 1 / 439.8, grape: 1 / 5.95, cherry: 1 / 32.29 },
             2: { big: 1 / 269.7, reg: 1 / 399.6, grape: 1 / 5.90, cherry: 1 / 32.29 },
@@ -460,9 +448,12 @@
             5: { big: 1 / 259.0, reg: 1 / 255.0, grape: 1 / 5.75, cherry: 1 / 32.29 },
             6: { big: 1 / 255.0, reg: 1 / 255.0, grape: 1 / 5.95, cherry: 1 / 32.29 }
         };
+
         const SYMS = ['🍒', '🍇', '🔔', '7️⃣', '⭐', '🍋'];
         const REEL = [0, 0, 1, 2, 5, 0, 1, 2, 5, 3, 0, 1, 2, 4, 0, 1, 2, 5, 0, 1];
+        const CELL_H = 120;
 
+        // ===== 状態 =====
         let coins = parseInt(localStorage.getItem('shag_coins') || '50');
         let bigC = parseInt(localStorage.getItem('shag_big') || '0');
         let regC = parseInt(localStorage.getItem('shag_reg') || '0');
@@ -470,11 +461,11 @@
         let spinning = false;
         let ac = null;
 
+        // ===== Audio =====
         function getAC() {
             if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
             return ac;
         }
-
         function playStart() {
             try {
                 const a = getAC();
@@ -482,26 +473,22 @@
                 o.connect(g); g.connect(a.destination);
                 o.type = 'sine';
                 o.frequency.setValueAtTime(880, a.currentTime);
-                o.frequency.exponentialRampToValueAtTime(1320, a.currentTime + 0.06);
+                o.frequency.exponentialRampToValueAtTime(1320, a.currentTime + 0.07);
                 g.gain.setValueAtTime(0.12, a.currentTime);
-                g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.12);
-                o.start(); o.stop(a.currentTime + 0.12);
+                g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.13);
+                o.start(); o.stop(a.currentTime + 0.13);
             } catch (e) { }
         }
-
         function playGako(big) {
             try {
-                const a = getAC();
-                const sr = a.sampleRate;
-                const dur = big ? 0.35 : 0.22;
+                const a = getAC(), sr = a.sampleRate;
+                const dur = big ? 0.38 : 0.24;
                 const buf = a.createBuffer(1, Math.floor(sr * dur), sr);
                 const d = buf.getChannelData(0);
-                const freq = big ? 70 : 110;
-                const decay = big ? 14 : 20;
-                const vol = big ? 1.0 : 0.55;
+                const freq = big ? 68 : 105, decay = big ? 13 : 19, vol = big ? 1.0 : 0.55;
                 for (let i = 0; i < d.length; i++) {
                     const t = i / sr;
-                    d[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-t * decay) * vol * (Math.random() * 0.25 + 0.75);
+                    d[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-t * decay) * vol * (Math.random() * 0.2 + 0.8);
                 }
                 const src = a.createBufferSource(), g = a.createGain();
                 src.buffer = buf; g.gain.value = 1;
@@ -510,58 +497,91 @@
             } catch (e) { }
         }
 
+        // ===== UI =====
         function save() {
             localStorage.setItem('shag_coins', coins);
             localStorage.setItem('shag_big', bigC);
             localStorage.setItem('shag_reg', regC);
             localStorage.setItem('shag_games', games);
         }
-
         function updateUI() {
             document.getElementById('coins').textContent = coins;
             document.getElementById('big-count').textContent = bigC;
             document.getElementById('reg-count').textContent = regC;
             document.getElementById('games').textContent = games;
         }
+        function setMsg(t, cls) {
+            const el = document.getElementById('msg');
+            el.textContent = t; el.className = cls || '';
+        }
+        function setLog(t) {
+            document.getElementById('premium-log').textContent = t;
+        }
 
-        function buildReel(id) {
-            const el = document.getElementById(id);
+        // ===== リール (JS scroll方式) =====
+        // 各リールは複数cellをDOMに並べ、offsetYを動かして回転を表現
+        const reelState = [
+            { offset: 0, timer: null, dir: 1 },
+            { offset: 0, timer: null, dir: 1 },
+            { offset: 0, timer: null, dir: 1 }
+        ];
+
+        function buildReelDOM(idx) {
+            const el = document.getElementById('r' + idx);
             let h = '';
-            for (let i = 0; i < REEL.length * 2; i++)
+            // リール配列を3周分並べる（ループのため）
+            const total = REEL.length * 3;
+            for (let i = 0; i < total; i++) {
                 h += `<div class="reel-cell">${SYMS[REEL[i % REEL.length]]}</div>`;
+            }
             el.innerHTML = h;
+            el.style.top = '0px';
         }
 
-        function showSym(id, si) {
-            const el = document.getElementById(id);
-            el.classList.remove('spinning', 'rev');
-            el.style.animation = 'none';
-            el.innerHTML = `<div class="reel-cell">${SYMS[si]}</div>`;
+        function startReelSpin(idx, reverse) {
+            const st = reelState[idx];
+            st.dir = reverse ? -1 : 1;
+            buildReelDOM(idx);
+            st.offset = 0;
+            const el = document.getElementById('r' + idx);
+            const totalH = REEL.length * 3 * CELL_H;
+
+            if (st.timer) clearInterval(st.timer);
+            st.timer = setInterval(() => {
+                st.offset += st.dir * 12; // 速度
+                // ループ処理
+                if (st.offset >= REEL.length * CELL_H) st.offset -= REEL.length * CELL_H;
+                if (st.offset < 0) st.offset += REEL.length * CELL_H;
+                el.style.top = (-st.offset) + 'px';
+            }, 16);
         }
 
-        function startSpin(id, rev) {
-            const el = document.getElementById(id);
-            buildReel(id);
-            el.classList.remove('spinning', 'rev');
-            void el.offsetWidth;
-            el.classList.add(rev ? 'rev' : 'spinning');
+        function stopReel(idx, symIdx, cb) {
+            const st = reelState[idx];
+            if (st.timer) { clearInterval(st.timer); st.timer = null; }
+            const el = document.getElementById('r' + idx);
+            // 表示する絵柄を中央に1つだけ表示
+            el.innerHTML = `<div class="reel-cell">${SYMS[symIdx]}</div>`;
+            el.style.top = '0px';
+            if (cb) cb();
         }
 
+        // ===== ランプ =====
         function lightDodo(type) {
             const d = document.getElementById('dodo');
             d.classList.remove('lit', 'chika', 'rainbow');
             void d.offsetWidth;
             if (type === 'rainbow') d.classList.add('rainbow');
-            else if (type === 'chika') d.classList.add('lit', 'chika');
+            else if (type === 'chika') { d.classList.add('lit', 'chika'); }
             else d.classList.add('lit');
         }
-
         function darkReels(on) {
             ['rw0', 'rw1', 'rw2'].forEach(id => {
                 document.getElementById(id).classList.toggle('dark', on);
             });
         }
 
+        // ===== 抽選 =====
         function pickPremium() {
             const r = Math.random();
             if (r < 0.01) return 'bazuka';
@@ -572,7 +592,6 @@
             if (r < 0.12) return 'silent';
             return null;
         }
-
         function internal(setting) {
             const p = PROB[setting], r = Math.random();
             if (r < p.big) return 'big';
@@ -586,7 +605,6 @@
             if (Math.random() < 0.04) return 'bell';
             return 'miss';
         }
-
         function getSyms(result) {
             const rand = () => REEL[Math.floor(Math.random() * REEL.length)];
             let s = [rand(), rand(), rand()];
@@ -600,15 +618,7 @@
             return s;
         }
 
-        function setMsg(t, cls) {
-            const el = document.getElementById('msg');
-            el.textContent = t; el.className = cls || '';
-        }
-
-        function setPremiumLog(t) {
-            document.getElementById('premium-log').textContent = t;
-        }
-
+        // ===== スピン本体 =====
         function spin() {
             if (spinning) return;
             const bet = parseInt(document.getElementById('bet-sel').value);
@@ -617,66 +627,74 @@
 
             coins -= bet; games++; spinning = true;
             document.getElementById('spin-btn').disabled = true;
-            setMsg('', ''); setPremiumLog('');
-            updateUI();
+            setMsg('', ''); setLog(''); updateUI();
 
             const result = internal(setting);
             const syms = getSyms(result);
             const isBig = result === 'big' || result === 'big_cherry';
             const isBonus = isBig || result === 'reg' || result === 'reg_cherry';
-            const premium = isBonus && isBig ? pickPremium() : null;
+            const premium = (isBonus && isBig) ? pickPremium() : null;
             const isSilent = premium === 'silent';
             const isReverse = premium === 'reverse';
             const isBazuka = premium === 'bazuka';
             const isBlackout = premium === 'blackout';
             const isChika = premium === 'chika';
             const isRainbow = premium === 'rainbow';
-            const isSaki = isBonus && Math.random() < 0.25;
+            const isSaki = isBonus && Math.random() < 0.25; // 先告知25%
 
+            // スタート音
             if (!isSilent) playStart();
-            else setPremiumLog('🔇 無音プレミアム発生');
+            else setLog('🔇 無音プレミアム！');
 
-            if (isReverse) {
-                startSpin('r0', true); startSpin('r1', true); startSpin('r2', true);
-                setPremiumLog('🎰 リール逆回転プレミアム');
-            } else {
-                startSpin('r0', false); startSpin('r1', false); startSpin('r2', false);
-            }
+            // リール回転開始
+            const rev = isReverse;
+            startReelSpin(0, rev);
+            startReelSpin(1, rev);
+            startReelSpin(2, rev);
+            if (rev) setLog('🎰 リール逆回転！');
 
+            // 全消灯
             if (isBlackout) {
-                setTimeout(() => { darkReels(true); setPremiumLog('🌑 全消灯プレミアム'); }, 80);
+                setTimeout(() => { darkReels(true); setLog('🌑 全消灯！'); }, 80);
             }
 
             const lType = isRainbow ? 'rainbow' : isChika ? 'chika' : 'lit';
 
+            // 先告知
             if (isSaki && isBonus) {
-                const sTime = isReverse ? 60 : Math.random() < 0.5 ? 60 : 350;
+                const sTime = rev ? 60 : (Math.random() < 0.5 ? 80 : 400);
                 setTimeout(() => {
                     lightDodo(lType);
-                    if (isRainbow) setPremiumLog('🌈 レインボー点灯！');
-                    else if (isChika) setPremiumLog('✨ チカチカ点滅！');
+                    if (isRainbow) setLog('🌈 レインボー点灯！');
+                    else if (isChika) setLog('✨ チカチカ！');
                 }, sTime);
             }
 
-            const t1 = 600 + Math.random() * 150;
-            const t2 = 900 + Math.random() * 150;
-            const t3 = 1200 + Math.random() * 150;
+            // リール停止タイミング
+            const t1 = 700 + Math.random() * 150;
+            const t2 = 1050 + Math.random() * 150;
+            const t3 = 1400 + Math.random() * 150;
 
-            setTimeout(() => showSym('r0', syms[0]), t1);
-            setTimeout(() => showSym('r1', syms[1]), t2);
+            setTimeout(() => stopReel(0, syms[0]), t1);
+            setTimeout(() => stopReel(1, syms[1]), t2);
             setTimeout(() => {
-                showSym('r2', syms[2]);
-                if (isBlackout) setTimeout(() => darkReels(false), 350);
-                if (!isSaki && isBonus) {
-                    lightDodo(lType);
-                    if (isBazuka) { playGako(true); setPremiumLog('💥 ガコバズーカ！！'); }
-                    else if (isRainbow) setPremiumLog('🌈 レインボー点灯！');
-                    else if (isChika) setPremiumLog('✨ チカチカ点滅！');
-                    else playGako(false);
-                }
-                spinning = false;
-                document.getElementById('spin-btn').disabled = false;
-                resolve(result, bet, premium);
+                stopReel(2, syms[2], () => {
+                    // 全消灯解除
+                    if (isBlackout) setTimeout(() => darkReels(false), 350);
+
+                    // 後告知
+                    if (!isSaki && isBonus) {
+                        lightDodo(lType);
+                        if (isBazuka) { playGako(true); setLog('💥 ガコバズーカ！！'); }
+                        else if (isRainbow) setLog('🌈 レインボー点灯！');
+                        else if (isChika) setLog('✨ チカチカ！');
+                        else playGako(false);
+                    }
+
+                    spinning = false;
+                    document.getElementById('spin-btn').disabled = false;
+                    resolve(result, bet, premium);
+                });
             }, t3);
         }
 
@@ -685,8 +703,7 @@
             let win = 0;
             if (result === 'big' || result === 'big_cherry') {
                 win = Math.round(50 * ratio); bigC++;
-                if (!premium) setMsg('🎰 BIG BONUS！', 'bonus');
-                else setMsg('🎰 BIG BONUS！', 'bonus');
+                setMsg('🎰 BIG BONUS！', 'bonus');
             } else if (result === 'reg' || result === 'reg_cherry') {
                 win = Math.round(30 * ratio); regC++;
                 setMsg('⭐ REG BONUS！', 'bonus');
@@ -704,7 +721,14 @@
         }
 
         function addCoins() { coins += 50; updateUI(); save(); }
-        updateUI();
+
+        // 初期化
+        (function init() {
+            buildReelDOM(0); buildReelDOM(1); buildReelDOM(2);
+            // 初期表示：中央に絵柄を1つ表示
+            stopReel(0, 0); stopReel(1, 4); stopReel(2, 3);
+            updateUI();
+        })();
     </script>
 </body>
 
